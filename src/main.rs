@@ -1,5 +1,5 @@
-use dumbpipe::*;
 use clap_builder::Parser;
+use dumbpipe::*;
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     tracing_subscriber::fmt::init();
