@@ -10,7 +10,6 @@ repository = "https://github.com/n0-computer/dumbpipe"
 description = "A cli tool to pipe data over the network, with NAT hole punching"
 readme = "README.md"
 
-
 [dependencies]
 anyhow = "1.0.75"
 clap = { version = "4.4.10", features = ["derive"] }
