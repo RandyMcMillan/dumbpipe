@@ -17,7 +17,6 @@ use tokio::{
 };
 use tokio_util::sync::CancellationToken;
 
-
 /// The ALPN for dumbpipe.
 ///
 /// It is basically just passing data through 1:1, except that the connecting
@@ -337,7 +336,7 @@ pub async fn listen_stdio(args: ListenArgs) -> anyhow::Result<()> {
             // read the handshake and verify it
             let mut buf = [0u8; HANDSHAKE.len()];
             r.read_exact(&mut buf).await?;
-            anyhow::ensure!(buf ==HANDSHAKE, "invalid handshake");
+            anyhow::ensure!(buf == HANDSHAKE, "invalid handshake");
         }
         tracing::info!("forwarding stdin/stdout to {}", remote_node_id);
         forward_bidi(tokio::io::stdin(), tokio::io::stdout(), r, s).await?;
