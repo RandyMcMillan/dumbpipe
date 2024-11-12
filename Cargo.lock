@@ -734,6 +734,7 @@ version = "0.20.0"
 dependencies = [
  "anyhow",
  "clap",
+ "clap_builder",
  "duct",
  "hex",
  "iroh-net",
