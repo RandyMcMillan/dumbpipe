@@ -12,6 +12,7 @@ name = "uniffi-bindgen"
 path = "uniffi-bindgen.rs"
 
 [dependencies]
+dumbpipe = { version = "0.20.0", path = "../.." }
 uniffi = { version = "0.28.0", features = [ "cli" ] }
 
 [build-dependencies]
