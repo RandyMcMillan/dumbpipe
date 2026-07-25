@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+env:
+  CARGO_TERM_COLOR: always
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build-test:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Windows
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+          
+          # Linux
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+          
+          # Apple Silicon (arm64)
+          - os: macos-latest
+            target: aarch64-apple-darwin
+
+          # Apple Silicon (arm64)
+          - os: macos-14
+            target: aarch64-apple-darwin
+
+          # Apple Silicon (arm64)
+          - os: macos-15
+            target: aarch64-apple-darwin
+
+          # Apple Silicon (arm64)
+          - os: macos-26
+            target: aarch64-apple-darwin
+            
+          # Intel-based macOS (x86_64)
+          - os: macos-26-intel
+            target: x86_64-apple-darwin
+
+          # Intel-based macOS (x86_64)
+          - os: macos-15-intel
+            target: x86_64-apple-darwin
+
+    name: Build & Test (${{ matrix.target }})
+    runs-on: ${{ matrix.os }}
+
+    env:
+      RA_TARGET: ${{ matrix.target }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Only runs on macOS runners (both Silicon and Intel)
+      - name: macOS specific setup
+        if: contains(matrix.os, 'macos')
+        run: |
+          echo "Running on ${{ matrix.os }}"
+          ./build.sh && make
+          # Add any additional macOS-specific environment setup here
+
+      - name: Build
+        run: |
+          cargo build --verbose \
+          --manifest-path ./rustylib/Cargo.toml \
+          --target ${{ matrix.target }}
+
+      - name: Run tests
+        run: |
+          cargo test --verbose \
+          --manifest-path ./rustylib/Cargo.toml \
+          --target ${{ matrix.target }}
